@@ -48,12 +48,19 @@ pfm.list <- list(pfm.rela,pfm.tp53.core,pfm.tp53.14)
 
 ### Specify genes of interest
 genes <- c("SCO2","TFAM","POLRMT","CYB5A")
+genes <- c('RELA', 'TP53')
 #genes.other <- c("DLAT","MDC1","IL10","QARS","ZXDA")
 #genes <- c("DAL1", "DAL2", "DAL4", "DAL5", "DAL7", "DAL80", "GAP1")
 
 ### Declare pos. controls
 genes <- c('IL1A','IL1B','TNF','IL6')  # RELA positive controls   ,'IL-8','MCP-1' not found
 genes <- c('CDKN1A','GADD45A','GADD45B','GADD45G','PERP','BAX')   # TP53 Positive controls
+
+### Declare HOX genes as negative controls
+hox.raw <- read.csv('c:/Users/grossar/Bioinform/DATA/hox_genes.fasta', header = FALSE)
+hox.raw <- as.vector(unlist(hox.raw[seq(1,nrow(hox.raw),2),]))
+genes <- c()
+for(element in hox.raw) {genes <- c(hox.genes,strsplit(element,"[|]")[[1]][2])}
 
 ### Generate a list of GRange objects from the target organism
 x <- org.Hs.egSYMBOL2EG         ## Objects in this package can be accessed using the select() interface from the AnnotationDbi package. See ?select for details.
